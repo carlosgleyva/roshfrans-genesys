@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análisis Estratégico: Roshfrans y Genesys Cloud</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Colores Oficiales */
+            --roshfrans-red: #e80929;
+            --roshfrans-yellow: #ffc629;
+            --roshfrans-green: #009646;
+            --genesys-orange: #fe451a;
+            --genesys-dark-blue: #152550;
+            /* Neutrales */
+            --neutral-bg: #f4f6f9;
+            --neutral-card: #ffffff;
+            --text-dark: #1a202c;
+            --text-medium: #4a5568;
+        }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--neutral-bg); color: var(--text-dark); }
+
+        /* --- Encabezado y Navegación Fijos --- */
+        .header-professional { 
+            background-color: var(--genesys-dark-blue);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+        .header-professional::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 4px;
+            background: linear-gradient(to right, var(--roshfrans-red), var(--roshfrans-yellow), var(--roshfrans-green));
+        }
+        
+        .top-nav {
+            background-color: var(--neutral-card);
+            border-bottom: 1px solid #e2e8f0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 88px; /* Altura del header */
+            z-index: 40;
+        }
+        .nav-link {
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+            padding: 0.75rem 0.5rem;
+            font-weight: 500;
+            color: var(--text-medium);
+        }
+        .nav-link.active {
+            border-bottom-color: var(--genesys-orange);
+            color: var(--genesys-orange);
+            font-weight: 700;
+        }
+        .nav-link:hover { color: var(--genesys-orange); }
+
+        /* --- Secciones y Paneles Interactivos --- */
+        .content-section { display: none; padding-top: 2rem; }
+        .content-section.active { display: block; animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+
+        h2 { font-size: 2rem; font-weight: 700; color: var(--text-dark); padding-bottom: 0.75rem; margin-bottom: 1.5rem; border-bottom: 3px solid var(--roshfrans-red); }
+
+        .interactive-panel { display: grid; grid-template-columns: 1fr 2.5fr; gap: 2rem; background-color: var(--neutral-card); border-radius: 0.75rem; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; padding: 2rem; }
+        .topic-nav { display: flex; flex-direction: column; gap: 0.5rem; border-right: 1px solid #e2e8f0; padding-right: 2rem; }
+        .topic-link { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1rem; border-radius: 0.5rem; cursor: pointer; transition: all 0.2s ease-in-out; border-left: 4px solid transparent; }
+        .topic-link:hover { background-color: #f8fafc; border-left-color: var(--genesys-orange); }
+        .topic-link.active { background-color: #fff8f5; border-left-color: var(--genesys-orange); color: var(--genesys-orange); font-weight: 600; }
+        .topic-icon { width: 1.5rem; height: 1.5rem; flex-shrink: 0; }
+        .topic-content-container { min-height: 300px; }
+        .topic-content { display: none; animation: contentFadeIn 0.5s ease; }
+        .topic-content.active { display: block; }
+        .topic-content h4 { font-size: 1.5rem; font-weight: 600; color: var(--genesys-dark-blue); margin-bottom: 1rem; }
+        .topic-content p, .topic-content ul { color: var(--text-medium); line-height: 1.6; }
+        .topic-content ul { list-style-position: inside; list-style-type: disc; margin-top: 1rem; }
+        
+        /* --- Tablas y Gráficas --- */
+        table { width: 100%; border-collapse: collapse; margin-top: 1.5rem; font-size: 0.875rem; }
+        th, td { border: 1px solid #e2e8f0; padding: 0.75rem; text-align: left; }
+        th { background-color: #f8fafc; font-weight: 600; color: var(--genesys-dark-blue); }
+        .chart-container { margin-top: 1.5rem; padding: 1rem; border: 1px solid #e2e8f0; border-radius: 0.5rem; }
+
+        @media (max-width: 768px) {
+            .interactive-panel { grid-template-columns: 1fr; }
+            .topic-nav { border-right: none; border-bottom: 1px solid #e2e8f0; padding-right: 0; padding-bottom: 1rem; margin-bottom: 1rem; }
+            .top-nav { position: static; }
+            .header-professional { position: static; }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="header-professional shadow-lg">
+        <div class="container mx-auto px-6 py-5 text-center">
+            <h1 class="text-3xl md:text-4xl font-bold tracking-tight text-white">
+                Roshfrans <span class="font-light">&</span> Genesys Cloud
+            </h1>
+            <p class="text-lg text-white mt-1 opacity-90">Transformación Estratégica de la Experiencia del Cliente</p>
+        </div>
+    </header>
+
+    <nav class="top-nav">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-wrap items-center justify-center space-x-6 md:space-x-10 text-sm md:text-base">
+                <a href="#introduccion" class="nav-link">Introducción</a>
+                <a href="#situacion" class="nav-link">Análisis</a>
+                <a href="#desafios" class="nav-link">Desafíos</a>
+                <a href="#solucion" class="nav-link">Solución</a>
+                <a href="#roi" class="nav-link">ROI</a>
+                <a href="#adopcion" class="nav-link">Adopción</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mx-auto p-4 md:p-8">
+        <section id="introduccion" class="content-section">
+            <h2>Resumen Ejecutivo</h2>
+            <div class="interactive-panel">
+                <div class="topic-nav">
+                    <a class="topic-link active" data-target="intro-1"><svg class="topic-icon" style="color: var(--roshfrans-red);" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg><span>El Desafío Roshfrans</span></a>
+                    <a class="topic-link" data-target="intro-2"><svg class="topic-icon" style="color: var(--genesys-orange);" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg><span>La Solución Genesys</span></a>
+                </div>
+                <div class="topic-content-container">
+                    <div class="topic-content active" id="intro-1">
+                        <h4>El Imperativo de la Transformación</h4>
+                        <p>Roshfrans, un líder de mercado con una herencia de 69 años, enfrenta una encrucijada. La "deuda de complejidad" generada por un vasto catálogo y una base de clientes bifurcada (B2C/B2B) crea ineficiencias operativas y barreras para la escalabilidad. El mayor riesgo para su crecimiento futuro no es la competencia, sino el lastre operativo interno.</p>
+                    </div>
+                    <div class="topic-content" id="intro-2">
+                        <h4>Orquestación Inteligente</h4>
+                        <p>Genesys Cloud se presenta como la plataforma estratégica para gestionar esta complejidad. A través de la orquestación de experiencias y la IA, permite unificar el viaje del cliente, escalar el conocimiento experto y transformar el centro de contacto en un motor de inteligencia y crecimiento, alineando la operación con la visión transnacional de la empresa.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="situacion" class="content-section">
+            <h2>Análisis de Situación</h2>
+            <div class="interactive-panel">
+                <div class="topic-nav">
+                    <a class="topic-link active" data-target="sit-1"><svg class="topic-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0v-4m0 4h5m0-4v-4m0 4h2" /></svg><span>Perfil Corporativo</span></a>
+                    <a class="topic-link" data-target="sit-2"><svg class="topic-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg><span>Arquetipos de Clientes</span></a>
+                </div>
+                <div class="topic-content-container">
+                    <div class="topic-content active" id="sit-1">
+                        <h4>Liderazgo y Excelencia Técnica</h4>
+                        <p>Con 69 años de historia, Roshfrans es un líder nacional con una marca fuerte, excelencia técnica (LST) y una posición Top 5 en el mercado. Su crecimiento es impulsado por un parque vehicular en aumento, pero enfrenta la amenaza de un "mercado negro" que erosiona las ventas formales.</p>
+                        <div class="chart-container">
+                            <canvas id="marketGrowthChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="topic-content" id="sit-2">
+                        <h4>La Base de Clientes Bifurcada</h4>
+                        <p>El principal reto es atender a dos audiencias: el consumidor final (B2C) que busca simplicidad, y el profesional/industrial (B2B) que demanda datos técnicos y ROI. Una estrategia de comunicación única es inviable.</p>
+                        <div class="overflow-x-auto">
+                            <table>
+                                <thead><tr><th>Arquetipo</th><th>Necesidades</th><th>Agudeza Técnica</th><th>Canal Ideal</th></tr></thead>
+                                <tbody>
+                                    <tr><td>Consumidor DIY</td><td>Guía de selección, "cómo hacerlo"</td><td>Baja a Media</td><td>Chat web, FAQ, Blog</td></tr>
+                                    <tr><td>Mecánico Independiente</td><td>Acceso a specs, suministro</td><td>Alta</td><td>Línea técnica, App, WhatsApp</td></tr>
+                                    <tr><td>Gestor de Flota</td><td>Maximizar uptime, reducir TCO</td><td>Alta</td><td>Asesor dedicado, Email</td></tr>
+                                    <tr><td>Comprador Industrial</td><td>Cumplimiento, rendimiento</td><td>Muy Alta</td><td>Línea directa, Consulta in situ</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="desafios" class="content-section">
+            <h2>Desafíos Operativos Centrales</h2>
+            <div class="interactive-panel">
+                <div class="topic-nav">
+                    <a class="topic-link active" data-target="des-1"><svg class="topic-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg><span>Clientes Bifurcados</span></a>
+                    <a class="topic-link" data-target="des-2"><svg class="topic-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg><span>Soporte Ineficiente</span></a>
+                    <a class="topic-link" data-target="des-3"><svg class="topic-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11l5-5m0 0l5 5m-5-5v12" /></svg><span>Escalabilidad Limitada</span></a>
+                    <a class="topic-link" data-target="des-4"><svg class="topic-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.096 2.572-1.065z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg><span>Optimización de RRHH</span></a>
+                </div>
+                <div class="topic-content-container">
+                    <div class="topic-content active" id="des-1">
+                        <h4>Tensión Operativa</h4>
+                        <p>La necesidad de ser un asesor experto para ingenieros y una guía simple para consumidores crea una tensión operativa constante. Un gestor de flotas discutiendo el rendimiento del aceite Voltro PRO API CK-4 necesita un interlocutor con profundo conocimiento técnico. En contraste, un consumidor preguntando por un aceite para su coche familiar requiere una explicación simple. Intentar satisfacer ambas necesidades con un equipo unificado es ineficiente y genera una mala experiencia en ambos extremos.</p>
+                    </div>
+                    <div class="topic-content" id="des-2">
+                        <h4>Silos de Conocimiento</h4>
+                        <p>La experiencia técnica más profunda reside en un grupo pequeño y especializado en el LST y el ITR. Este conocimiento no es fácilmente accesible en tiempo real para los agentes de primera línea, lo que crea un riesgo de asesoramiento inconsistente. Un consejo erróneo sobre la aplicación de un lubricante puede tener consecuencias catastróficas, desde fallos en equipos costosos hasta un daño irreparable a la reputación de la marca.</p>
+                    </div>
+                    <div class="topic-content" id="des-3">
+                        <h4>Personalización a Escala</h4>
+                        <p>Mantener una interacción personalizada se vuelve exponencialmente difícil con el crecimiento. Existe una desconexión entre los esfuerzos de marketing de masas (patrocinios) y un proceso estructurado para gestionar los leads B2B que estos generan. La falta de un camino claro y personalizado desde el interés inicial hasta una conversación de ventas calificada representa una oportunidad de ingresos perdida.</p>
+                    </div>
+                    <div class="topic-content" id="des-4">
+                        <h4>Capital Humano</h4>
+                        <p>Dado el vasto y complejo catálogo de productos, capacitar a un nuevo agente es un proceso largo y costoso. Este largo "tiempo de rampa" reduce la productividad. Además, se corre el riesgo de agotar a los expertos de alto valor con preguntas repetitivas, afectando la moral y la retención del talento especializado.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="solucion" class="content-section">
+            <h2>La Solución Genesys</h2>
+            <div class="interactive-panel">
+                <div class="topic-nav">
+                    <a class="topic-link active" data-target="sol-1"><svg class="topic-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" /></svg><span>Mapeo Estratégico</span></a>
+                </div>
+                <div class="topic-content-container">
+                    <div class="topic-content active" id="sol-1">
+                        <h4>Alineación Directa de Problema a Solución</h4>
+                        <p>Genesys Cloud mapea directamente cada desafío de Roshfrans a una solución de IA específica, transformando debilidades operativas en fortalezas tecnológicas.</p>
+                        <table>
+                            <thead><tr><th>Desafío de Roshfrans</th><th>Solución Principal de Genesys</th></tr></thead>
+                            <tbody>
+                                <tr><td>Soporte Técnico Inconsistente</td><td><b>AI Guides</b></td></tr>
+                                <tr><td>Incapacidad para Escalar Conocimiento</td><td><b>Agentic AI / Agentes Virtuales</b></td></tr>
+                                <tr><td>Manejo Ineficiente de Consultas</td><td><b>Enrutamiento por IA</b></td></tr>
+                                <tr><td>Altos Costos de Capacitación</td><td><b>WEM y AI Guides</b></td></tr>
+                                <tr><td>Falta de Inteligencia de Mercado</td><td><b>Inteligencia Conversacional IA</b></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="roi" class="content-section">
+            <h2>Retorno de la Inversión (ROI)</h2>
+            <div class="interactive-panel">
+                <div class="topic-nav">
+                    <a class="topic-link active" data-target="roi-1"><svg class="topic-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg><span>ROI Cuantificable</span></a>
+                    <a class="topic-link" data-target="roi-2"><svg class="topic-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg><span>Valor Estratégico</span></a>
+                </div>
+                <div class="topic-content-container">
+                    <div class="topic-content active" id="roi-1">
+                        <h4>Eficiencia y Crecimiento</h4>
+                        <p>La inversión se justifica a través de mejoras medibles en reducción de costos y generación de ingresos.</p>
+                        <div class="chart-container">
+                            <canvas id="roiChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="topic-content" id="roi-2"><h4>Inteligencia de Negocio</h4><p>Más allá de los números, el mayor ROI es la capacidad de analizar el 100% de las conversaciones. Esto proporciona a la alta dirección datos en tiempo real para la toma de decisiones estratégicas sobre productos, marketing y expansión, una ventaja competitiva que los informes de mercado tradicionales no pueden igualar.</p></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="adopcion" class="content-section">
+            <h2>Modelo de Adopción: Caminar, Correr, Volar</h2>
+            <div class="interactive-panel">
+                <div class="topic-nav">
+                    <a class="topic-link active" data-target="adop-1"><svg class="topic-icon" style="color:var(--roshfrans-green)" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg><span>Fase 1: Caminar</span></a>
+                    <a class="topic-link" data-target="adop-2"><svg class="topic-icon" style="color:var(--genesys-dark-blue)" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg><span>Fase 2: Correr</span></a>
+                    <a class="topic-link" data-target="adop-3"><svg class="topic-icon" style="color:var(--genesys-orange)" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg><span>Fase 3: Volar</span></a>
+                </div>
+                <div class="topic-content-container">
+                    <div class="topic-content active" id="adop-1"><h4>Meses 1-3: Fundación y Victorias Rápidas</h4><p><ul><li>Desplegar canales básicos (voz, chat, email) y activar la Inteligencia Conversacional.</li><li>Lanzar un chatbot de FAQ para consultas B2C rutinarias.</li><li><b>Objetivo:</b> Desviar interacciones de bajo valor y comenzar a recopilar datos accionables.</li></ul></p></div>
+                    <div class="topic-content" id="adop-2"><h4>Meses 4-9: Empoderamiento y Enfoque B2B</h4><p><ul><li>Implementar WEM para gestión de calidad y programación inteligente.</li><li>Construir AI Guides para los problemas técnicos más comunes.</li><li>Desplegar un Agente Virtual para que los distribuidores B2B verifiquen stock y precios.</li><li><b>Objetivo:</b> Mejorar la eficiencia del equipo humano y dar autoservicio a los socios.</li></ul></p></div>
+                    <div class="topic-content" id="adop-3"><h4>Meses 10-18: IA Agéntica y Orquestación</h4><p><ul><li>Evolucionar el Agente Virtual con capacidades de IA Agéntica para soporte técnico complejo.</li><li>Implementar Enrutamiento Predictivo para conectar clientes con el mejor agente.</li><li>Activar Engagement Predictivo para contactar proactivamente a leads B2B.</li><li><b>Objetivo:</b> Automatizar soporte técnico y transformar la plataforma en un generador de ingresos.</li></ul></p></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-800 text-white mt-12">
+        <div class="container mx-auto px-6 py-6 text-center text-sm">
+            <p>&copy; 2024 Análisis Estratégico. Creado para Roshfrans en colaboración con Genesys.</p>
+            <p class="text-gray-400 mt-2 text-xs">Disclaimer: Este análisis se ha elaborado utilizando información disponible públicamente en los sitios web oficiales de Roshfrans y Genesys, así como datos de mercado de fuentes de terceros. La intención es puramente ilustrativa para demostrar el potencial de la alianza estratégica.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const contentSections = document.querySelectorAll('.content-section');
+
+            function updateActiveState(hash) {
+                if (!hash || !document.querySelector(hash)) {
+                    hash = '#introduccion';
+                }
+                navLinks.forEach(link => link.classList.toggle('active', link.getAttribute('href') === hash));
+                contentSections.forEach(section => section.classList.toggle('active', '#' + section.id === hash));
+            }
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    if(window.location.hash !== targetId) {
+                        history.pushState(null, null, targetId);
+                    }
+                    updateActiveState(targetId);
+                    // No scroll to top, as menu is sticky
+                });
+            });
+            
+            window.addEventListener('popstate', () => updateActiveState(window.location.hash));
+            updateActiveState(window.location.hash);
+
+            const panels = document.querySelectorAll('.interactive-panel');
+            panels.forEach(panel => {
+                const topicLinks = panel.querySelectorAll('.topic-link');
+                const contentContainer = panel.querySelector('.topic-content-container');
+                topicLinks.forEach(link => {
+                    link.addEventListener('click', () => {
+                        panel.querySelector('.topic-link.active')?.classList.remove('active');
+                        contentContainer.querySelector('.topic-content.active')?.classList.remove('active');
+                        link.classList.add('active');
+                        const targetId = link.getAttribute('data-target');
+                        contentContainer.querySelector(`#${targetId}`)?.classList.add('active');
+                    });
+                });
+            });
+
+            // --- Chart Initialization ---
+            const marketCtx = document.getElementById('marketGrowthChart');
+            if (marketCtx) {
+                new Chart(marketCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['2024', '2033 (Proyección)'],
+                        datasets: [{
+                            label: 'Valor del Mercado (Millones USD)',
+                            data: [2125, 3078],
+                            backgroundColor: ['rgba(0, 150, 70, 0.6)', 'rgba(255, 198, 41, 0.6)'],
+                            borderColor: ['rgb(0, 150, 70)', 'rgb(255, 198, 41)'],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: { title: { display: true, text: 'Crecimiento del Mercado de Lubricantes en México' }, legend: { display: false } },
+                        scales: { y: { beginAtZero: true, ticks: { callback: value => `$${value}M` } } }
+                    }
+                });
+            }
+
+            const roiCtx = document.getElementById('roiChart');
+            if (roiCtx) {
+                new Chart(roiCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Reducción AHT', 'Aumento FCR', 'Aumento Conversión Leads'],
+                        datasets: [{
+                            label: 'Mejora Proyectada (%)',
+                            data: [20, 10, 7.5], // Illustrative percentages
+                            backgroundColor: [
+                                'rgba(0, 150, 70, 0.6)', // Green for cost saving
+                                'rgba(34, 67, 162, 0.6)', // Blue for quality
+                                'rgba(254, 69, 26, 0.6)'  // Orange for revenue
+                            ],
+                            borderColor: [
+                                'rgb(0, 150, 70)',
+                                'rgb(34, 67, 162)',
+                                'rgb(254, 69, 26)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        responsive: true,
+                        plugins: { title: { display: true, text: 'Impacto de IA en Métricas Clave' }, legend: { display: false } },
+                        scales: { x: { beginAtZero: true, ticks: { callback: value => `${value}%` } } }
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
+
