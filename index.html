@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Análisis Estratégico: Roshfrans y Genesys Cloud</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Análisis Estratégico: Autopartes Salav y Genesys Cloud</title>
+    <script src="[https://cdn.tailwindcss.com](https://cdn.tailwindcss.com)"></script>
+    <script src="[https://cdn.jsdelivr.net/npm/chart.js](https://cdn.jsdelivr.net/npm/chart.js)"></script>
+    <link href="[https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap](https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap)" rel="stylesheet">
     <style>
         :root {
             /* Colores Oficiales */
@@ -25,13 +25,13 @@
         body { font-family: 'Inter', sans-serif; background-color: var(--neutral-bg); color: var(--text-dark); }
 
         /* --- Encabezado y Navegación Fijos --- */
-        .header-professional { 
+       .header-professional { 
             background-color: var(--genesys-dark-blue);
             position: sticky;
             top: 0;
             z-index: 50;
         }
-        .header-professional::after {
+       .header-professional::after {
             content: '';
             position: absolute;
             left: 0;
@@ -41,7 +41,7 @@
             background: linear-gradient(to right, var(--roshfrans-red), var(--roshfrans-yellow), var(--roshfrans-green));
         }
         
-        .top-nav {
+       .top-nav {
             background-color: var(--neutral-card);
             border-bottom: 1px solid #e2e8f0;
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
@@ -49,52 +49,52 @@
             top: 88px; /* Altura del header */
             z-index: 40;
         }
-        .nav-link {
+       .nav-link {
             transition: all 0.3s ease;
             border-bottom: 3px solid transparent;
             padding: 0.75rem 0.5rem;
             font-weight: 500;
             color: var(--text-medium);
         }
-        .nav-link.active {
+       .nav-link.active {
             border-bottom-color: var(--genesys-orange);
             color: var(--genesys-orange);
             font-weight: 700;
         }
-        .nav-link:hover { color: var(--genesys-orange); }
+       .nav-link:hover { color: var(--genesys-orange); }
 
         /* --- Secciones y Paneles Interactivos --- */
-        .content-section { display: none; padding-top: 2rem; }
-        .content-section.active { display: block; animation: fadeIn 0.5s ease-in-out; }
+       .content-section { display: none; padding-top: 2rem; }
+       .content-section.active { display: block; animation: fadeIn 0.5s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
         h2 { font-size: 2rem; font-weight: 700; color: var(--text-dark); padding-bottom: 0.75rem; margin-bottom: 1.5rem; border-bottom: 3px solid var(--roshfrans-red); }
 
-        .interactive-panel { display: grid; grid-template-columns: 1fr 2.5fr; gap: 2rem; background-color: var(--neutral-card); border-radius: 0.75rem; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; padding: 2rem; }
-        .topic-nav { display: flex; flex-direction: column; gap: 0.5rem; border-right: 1px solid #e2e8f0; padding-right: 2rem; }
-        .topic-link { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1rem; border-radius: 0.5rem; cursor: pointer; transition: all 0.2s ease-in-out; border-left: 4px solid transparent; }
-        .topic-link:hover { background-color: #f8fafc; border-left-color: var(--genesys-orange); }
-        .topic-link.active { background-color: #fff8f5; border-left-color: var(--genesys-orange); color: var(--genesys-orange); font-weight: 600; }
-        .topic-icon { width: 1.5rem; height: 1.5rem; flex-shrink: 0; }
-        .topic-content-container { min-height: 300px; }
-        .topic-content { display: none; animation: contentFadeIn 0.5s ease; }
-        .topic-content.active { display: block; }
-        .topic-content h4 { font-size: 1.5rem; font-weight: 600; color: var(--genesys-dark-blue); margin-bottom: 1rem; }
-        .topic-content p, .topic-content ul { color: var(--text-medium); line-height: 1.6; }
-        .topic-content ul { list-style-position: inside; list-style-type: disc; margin-top: 1rem; }
+       .interactive-panel { display: grid; grid-template-columns: 1fr 2.5fr; gap: 2rem; background-color: var(--neutral-card); border-radius: 0.75rem; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; padding: 2rem; }
+       .topic-nav { display: flex; flex-direction: column; gap: 0.5rem; border-right: 1px solid #e2e8f0; padding-right: 2rem; }
+       .topic-link { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1rem; border-radius: 0.5rem; cursor: pointer; transition: all 0.2s ease-in-out; border-left: 4px solid transparent; }
+       .topic-link:hover { background-color: #f8fafc; border-left-color: var(--genesys-orange); }
+       .topic-link.active { background-color: #fff8f5; border-left-color: var(--genesys-orange); color: var(--genesys-orange); font-weight: 600; }
+       .topic-icon { width: 1.5rem; height: 1.5rem; flex-shrink: 0; }
+       .topic-content-container { min-height: 300px; }
+       .topic-content { display: none; animation: contentFadeIn 0.5s ease; }
+       .topic-content.active { display: block; }
+       .topic-content h4 { font-size: 1.5rem; font-weight: 600; color: var(--genesys-dark-blue); margin-bottom: 1rem; }
+       .topic-content p,.topic-content ul { color: var(--text-medium); line-height: 1.6; }
+       .topic-content ul { list-style-position: inside; list-style-type: disc; margin-top: 1rem; }
         
         /* --- Tablas y Gráficas --- */
         table { width: 100%; border-collapse: collapse; margin-top: 1.5rem; font-size: 0.875rem; }
         th, td { border: 1px solid #e2e8f0; padding: 0.75rem; text-align: left; }
         th { background-color: #f8fafc; font-weight: 600; color: var(--genesys-dark-blue); }
-        .chart-container { margin-top: 1.5rem; padding: 1rem; border: 1px solid #e2e8f0; border-radius: 0.5rem; }
+       .chart-container { margin-top: 1.5rem; padding: 1rem; border: 1px solid #e2e8f0; border-radius: 0.5rem; }
 
         @media (max-width: 768px) {
-            .interactive-panel { grid-template-columns: 1fr; }
-            .topic-nav { border-right: none; border-bottom: 1px solid #e2e8f0; padding-right: 0; padding-bottom: 1rem; margin-bottom: 1rem; }
-            .top-nav { position: static; }
-            .header-professional { position: static; }
-            .header-professional::after { display: none; } /* <-- AQUÍ EL CAMBIO */
+           .interactive-panel { grid-template-columns: 1fr; }
+           .topic-nav { border-right: none; border-bottom: 1px solid #e2e8f0; padding-right: 0; padding-bottom: 1rem; margin-bottom: 1rem; }
+           .top-nav { position: static; }
+           .header-professional { position: static; }
+           .header-professional::after { display: none; }
         }
     </style>
 </head>
@@ -103,7 +103,7 @@
     <header class="header-professional shadow-lg">
         <div class="container mx-auto px-6 py-5 text-center">
             <h1 class="text-3xl md:text-4xl font-bold tracking-tight text-white">
-                Roshfrans <span class="font-light">&</span> Genesys Cloud
+                Autopartes Salav <span class="font-light">&</span> Genesys Cloud
             </h1>
             <p class="text-lg text-white mt-1 opacity-90">Transformación Estratégica de la Experiencia del Cliente</p>
         </div>
@@ -127,17 +127,17 @@
             <h2>Resumen Ejecutivo</h2>
             <div class="interactive-panel">
                 <div class="topic-nav">
-                    <a class="topic-link active" data-target="intro-1"><svg class="topic-icon" style="color: var(--roshfrans-red);" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg><span>El Desafío Roshfrans</span></a>
-                    <a class="topic-link" data-target="intro-2"><svg class="topic-icon" style="color: var(--genesys-orange);" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg><span>La Solución Genesys</span></a>
+                    <a class="topic-link active" data-target="intro-1"><svg class="topic-icon" style="color: var(--roshfrans-red);" xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg><span>El Desafío APSR</span></a>
+                    <a class="topic-link" data-target="intro-2"><svg class="topic-icon" style="color: var(--genesys-orange);" xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg><span>La Solución Genesys</span></a>
                 </div>
                 <div class="topic-content-container">
                     <div class="topic-content active" id="intro-1">
-                        <h4>El Imperativo de la Transformación</h4>
-                        <p>Roshfrans, un líder de mercado con una herencia de 69 años, enfrenta una encrucijada. La "deuda de complejidad" generada por un vasto catálogo y una base de clientes bifurcada (B2C/B2B) crea ineficiencias operativas y barreras para la escalabilidad. El mayor riesgo para su crecimiento futuro no es la competencia, sino el lastre operativo interno.</p>
+                        <h4>El Imperativo de la Experiencia</h4>
+                        <p>Autopartes Salav (APSR), la división estratégica de Roshfrans, aspira a un servicio de "entrega de farmacia": inmediato y perfecto. Sin embargo, esta visión choca con desafíos operativos críticos: una presencia digital inexistente ("sitio en construcción") y una brecha en la comunicación logística, creando un riesgo directo para su promesa de marca y la lealtad del cliente.</p>
                     </div>
                     <div class="topic-content" id="intro-2">
                         <h4>Orquestación Inteligente</h4>
-                        <p>Genesys Cloud se presenta como la plataforma estratégica para gestionar esta complejidad. A través de la orquestación de experiencias y la IA, permite unificar el viaje del cliente, escalar el conocimiento experto y transformar el centro de contacto en un motor de inteligencia y crecimiento, alineando la operación con la visión transnacional de la empresa.</p>
+                        <p>Genesys Cloud ofrece la solución estratégica. A través de la orquestación de experiencias impulsada por IA, APSR puede unificar el viaje del cliente, automatizar la comunicación proactiva y escalar su servicio personalizado, transformando sus desafíos operativos en una ventaja competitiva decisiva para liderar el mercado.</p>
                     </div>
                 </div>
             </div>
@@ -147,28 +147,27 @@
             <h2>Análisis de Situación</h2>
             <div class="interactive-panel">
                 <div class="topic-nav">
-                    <a class="topic-link active" data-target="sit-1"><svg class="topic-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0v-4m0 4h5m0-4v-4m0 4h2" /></svg><span>Perfil Corporativo</span></a>
-                    <a class="topic-link" data-target="sit-2"><svg class="topic-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg><span>Arquetipos de Clientes</span></a>
+                    <a class="topic-link active" data-target="sit-1"><svg class="topic-icon" xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0v-4m0 4h5m0-4v-4m0 4h2" /></svg><span>Posición en el Mercado</span></a>
+                    <a class="topic-link" data-target="sit-2"><svg class="topic-icon" xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg><span>Arquetipos de Clientes</span></a>
                 </div>
                 <div class="topic-content-container">
                     <div class="topic-content active" id="sit-1">
-                        <h4>Liderazgo y Excelencia Técnica</h4>
-                        <p>Con 69 años de historia, Roshfrans es un líder nacional con una marca fuerte, excelencia técnica (LST) y una posición Top 5 en el mercado. Su crecimiento es impulsado por un parque vehicular en aumento, pero enfrenta la amenaza de un "mercado negro" que erosiona las ventas formales.</p>
+                        <h4>Crecimiento y Estrategia</h4>
+                        <p>APSR, el brazo distribuidor de Roshfrans, opera en un mercado de repuestos de ~$35,000 MDD con un crecimiento proyectado del 12-14% anual. Su estrategia es diferenciarse por un servicio superior, no por precio, para emular el legado de calidad de Roshfrans y convertirse en el "punto de referencia" del sector.</p>
                         <div class="chart-container">
                             <canvas id="marketGrowthChart"></canvas>
                         </div>
                     </div>
                     <div class="topic-content" id="sit-2">
-                        <h4>La Base de Clientes Bifurcada</h4>
-                        <p>El principal reto es atender a dos audiencias: el consumidor final (B2C) que busca simplicidad, y el profesional/industrial (B2B) que demanda datos técnicos y ROI. Una estrategia de comunicación única es inviable.</p>
+                        <h4>El Profesional en el Centro</h4>
+                        <p>El cliente principal es el <strong>taller mecánico profesional</strong>. Para ellos, el tiempo es rentabilidad. Una refacción que no llega a tiempo es una rampa de servicio detenida y una pérdida directa de ingresos. La experiencia de servicio no es un extra, es el producto principal que APSR vende.</p>
                         <div class="overflow-x-auto">
                             <table>
-                                <thead><tr><th>Arquetipo</th><th>Necesidades</th><th>Agudeza Técnica</th><th>Canal Ideal</th></tr></thead>
+                                <thead><tr><th>Arquetipo</th><th>Necesidad Crítica</th><th>Dolor Principal</th><th>Canal Ideal (Futuro)</th></tr></thead>
                                 <tbody>
-                                    <tr><td>Consumidor DIY</td><td>Guía de selección, "cómo hacerlo"</td><td>Baja a Media</td><td>Chat web, FAQ, Blog</td></tr>
-                                    <tr><td>Mecánico Independiente</td><td>Acceso a specs, suministro</td><td>Alta</td><td>Línea técnica, App, WhatsApp</td></tr>
-                                    <tr><td>Gestor de Flota</td><td>Maximizar uptime, reducir TCO</td><td>Alta</td><td>Asesor dedicado, Email</td></tr>
-                                    <tr><td>Comprador Industrial</td><td>Cumplimiento, rendimiento</td><td>Muy Alta</td><td>Línea directa, Consulta in situ</td></tr>
+                                    <tr><td>Taller Mecánico</td><td><strong>Inmediatez y Fiabilidad</strong> ("Entrega de Farmacia")</td><td>Incertidumbre en la entrega, falta de visibilidad</td><td>WhatsApp, Portal de Autoservicio, Notificaciones Proactivas</td></tr>
+                                    <tr><td>Gestor de Flotas</td><td>Eficiencia Operativa, TCO</td><td>Gestión de Múltiples Proveedores</td><td>Asesor Dedicado, Portal B2B</td></tr>
+                                    <tr><td>Consumidor Final</td><td>Asesoría y Confianza</td><td>Dificultad para encontrar la pieza correcta</td><td>E-commerce, Chatbots, FAQ</td></tr>
                                 </tbody>
                             </table>
                         </div>
@@ -181,28 +180,27 @@
             <h2>Desafíos Operativos Centrales</h2>
             <div class="interactive-panel">
                 <div class="topic-nav">
-                    <a class="topic-link active" data-target="des-1"><svg class="topic-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg><span>Clientes Bifurcados</span></a>
-                    <a class="topic-link" data-target="des-2"><svg class="topic-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg><span>Soporte Ineficiente</span></a>
-                    <a class="topic-link" data-target="des-3"><svg class="topic-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11l5-5m0 0l5 5m-5-5v12" /></svg><span>Escalabilidad Limitada</span></a>
-                    <a class="topic-link" data-target="des-4"><svg class="topic-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg><span>Visibilidad y Control</span></a>
+                    <a class="topic-link active" data-target="des-1"><svg class="topic-icon" xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg><span>La Promesa de Servicio</span></a>
+                    <a class="topic-link" data-target="des-2"><svg class="topic-icon" xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg><span>Brecha Digital</span></a>
+                    <a class="topic-link" data-target="des-3"><svg class="topic-icon" xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11l5-5m0 0l5 5m-5-5v12" /></svg><span>Escalar el Toque Personal</span></a>
+                    <a class="topic-link" data-target="des-4"><svg class="topic-icon" xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg><span>Falta de Visibilidad</span></a>
                 </div>
                 <div class="topic-content-container">
                     <div class="topic-content active" id="des-1">
-                        <h4>Tensión Operativa</h4>
-                        <p>La necesidad de ser un asesor experto para ingenieros y una guía simple para consumidores crea una tensión operativa constante. Un gestor de flotas discutiendo el rendimiento del aceite Voltro PRO API CK-4 necesita un interlocutor con profundo conocimiento técnico. En contraste, un consumidor preguntando por un aceite para su coche familiar requiere una explicación simple. Intentar satisfacer ambas necesidades con un equipo unificado es ineficiente y genera una mala experiencia en ambos extremos.</p>
+                        <h4>El Agujero Negro de la Última Milla</h4>
+                        <p>La expectativa del cliente de una entrega "como si fuera un pedido de farmacia" crea una presión logística inmensa. La comunicación actual se limita a "su pedido ya está saliendo", dejando un vacío de información y ansiedad durante la fase más crítica de la espera, donde la promesa de servicio es más vulnerable.</p>
                     </div>
                     <div class="topic-content" id="des-2">
-                        <h4>Silos de Conocimiento</h4>
-                        <p>La experiencia técnica más profunda reside en un grupo pequeño y especializado en el LST y el ITR. Este conocimiento no es fácilmente accesible en tiempo real para los agentes de primera línea, lo que crea un riesgo de asesoramiento inconsistente. Un consejo erróneo sobre la aplicación de un lubricante puede tener consecuencias catastróficas, desde fallos en equipos costosos hasta un daño irreparable a la reputación de la marca.</p>
+                        <h4>Un Portal al Pasado</h4>
+                        <p>El talón de Aquiles más evidente de APSR es su presencia digital. Su sitio web oficial está "EN CONSTRUCCIÓN", forzando a los clientes a canales de alto esfuerzo (teléfono, email) y eliminando cualquier posibilidad de autoservicio eficiente, una contradicción directa con su visión de ser una opción moderna y de primera.</p>
                     </div>
                     <div class="topic-content" id="des-3">
-                        <h4>Personalización a Escala</h4>
-                        <p>Mantener una interacción personalizada se vuelve exponencialmente difícil con el crecimiento. Existe una desconexión entre los esfuerzos de marketing de masas (patrocinios) y un proceso estructurado para gestionar los leads B2B que estos generan. La falta de un camino claro y personalizado desde el interés inicial hasta una conversación de ventas calificada representa una oportunidad de ingresos perdida.</p>
+                        <h4>La Paradoja de la Escala</h4>
+                        <p>APSR se enorgullece de su cultura de "trato especial" y cercanía. Sin embargo, este modelo de alto contacto es difícil de escalar. El riesgo es perder su diferenciador clave y volverse un distribuidor anónimo más a medida que el negocio crece, erosionando la lealtad del cliente.</p>
                     </div>
                     <div class="topic-content" id="des-4">
-                        <h4>Centralización y Data</h4>
-                        <p>Actualmente, toda la venta a talleres se realiza a través de vendedores en la calle, de forma individual. La comunicación se canaliza exclusivamente por el WhatsApp personal de cada vendedor, lo que deja al corporativo sin ninguna visibilidad sobre estos procesos cruciales.</p>
-                        <p class="mt-4">El desafío es claro: se necesita <strong>centralizar la operación</strong> para obtener data del cliente, establecer KPIs operativos (típicos de un Contact Center), y recolectar información para la personalización. Esto permitirá una comunicación directa y oficial, sin olvidar la <strong>automatización</strong> para impulsar la eficiencia.</p>
+                        <h4>Operación a Ciegas</h4>
+                        <p>La comunicación y los pedidos a menudo se canalizan a través de medios no centralizados (como WhatsApp personal de vendedores o llamadas directas), lo que deja al corporativo sin visibilidad, sin datos para análisis y sin control sobre la experiencia del cliente. Se necesita centralizar para obtener KPIs y personalizar a escala.</p>
                     </div>
                 </div>
             </div>
@@ -212,20 +210,20 @@
             <h2>La Solución Genesys</h2>
             <div class="interactive-panel">
                 <div class="topic-nav">
-                    <a class="topic-link active" data-target="sol-1"><svg class="topic-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" /></svg><span>Mapeo Estratégico</span></a>
+                    <a class="topic-link active" data-target="sol-1"><svg class="topic-icon" xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" /></svg><span>Mapeo Estratégico</span></a>
                 </div>
                 <div class="topic-content-container">
                     <div class="topic-content active" id="sol-1">
                         <h4>Alineación Directa de Problema a Solución</h4>
-                        <p>Genesys Cloud mapea directamente cada desafío de Roshfrans a una solución de IA específica, transformando debilidades operativas en fortalezas tecnológicas.</p>
+                        <p>Genesys Cloud no es solo un centro de contacto; es una plataforma de orquestación que alinea la tecnología con los objetivos de negocio de APSR, transformando cada desafío en una oportunidad de diferenciación.</p>
                         <table>
-                            <thead><tr><th>Desafío de Roshfrans</th><th>Solución Principal de Genesys</th></tr></thead>
+                            <thead><tr><th>Desafío de APSR</th><th>Solución Principal de Genesys Cloud</th></tr></thead>
                             <tbody>
-                                <tr><td>Soporte Técnico Inconsistente</td><td><b>AI Guides</b></td></tr>
-                                <tr><td>Incapacidad para Escalar Conocimiento</td><td><b>Agentic AI / Agentes Virtuales</b></td></tr>
-                                <tr><td>Manejo Ineficiente de Consultas</td><td><b>Enrutamiento por IA</b></td></tr>
-                                <tr><td>Altos Costos de Capacitación</td><td><b>WEM y AI Guides</b></td></tr>
-                                <tr><td>Falta de Inteligencia de Mercado</td><td><b>Inteligencia Conversacional IA</b></td></tr>
+                                <tr><td>Expectativa "Entrega de Farmacia" / Falta de visibilidad</td><td><b>Orquestación de Experiencias + Notificaciones Proactivas</b></td></tr>
+                                <tr><td>Brecha Digital (Sitio web "en construcción")</td><td><b>Engagement Digital <i>Channel-less</i> (Web, WhatsApp) + Bots de IA</b></td></tr>
+                                <tr><td>Escalar el "Toque Familiar" y Personal</td><td><b>Agent Copilot + Vista Unificada del Cliente 360°</b></td></tr>
+                                <tr><td>Falta de Visibilidad y Control Operativo</td><td><b>Plataforma Unificada + Analítica de Interacciones</b></td></tr>
+                                <tr><td>Adaptación a Futuro (EVs, disrupciones)</td><td><b>IA Agentic y Analítica Predictiva</b></td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -237,18 +235,18 @@
             <h2>Retorno de la Inversión (ROI)</h2>
             <div class="interactive-panel">
                 <div class="topic-nav">
-                    <a class="topic-link active" data-target="roi-1"><svg class="topic-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg><span>ROI Cuantificable</span></a>
-                    <a class="topic-link" data-target="roi-2"><svg class="topic-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg><span>Valor Estratégico</span></a>
+                    <a class="topic-link active" data-target="roi-1"><svg class="topic-icon" xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg><span>ROI Cuantificable</span></a>
+                    <a class="topic-link" data-target="roi-2"><svg class="topic-icon" xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg><span>Valor Estratégico</span></a>
                 </div>
                 <div class="topic-content-container">
                     <div class="topic-content active" id="roi-1">
                         <h4>Eficiencia y Crecimiento</h4>
-                        <p>La inversión se justifica a través de mejoras medibles en reducción de costos y generación de ingresos.</p>
+                        <p>La inversión en Genesys Cloud se traduce en métricas de negocio tangibles, optimizando costos operativos y mejorando drásticamente la capacidad y calidad del servicio.</p>
                         <div class="chart-container">
                             <canvas id="roiChart"></canvas>
                         </div>
                     </div>
-                    <div class="topic-content" id="roi-2"><h4>Inteligencia de Negocio</h4><p>Más allá de los números, el mayor ROI es la capacidad de analizar el 100% de las conversaciones. Esto proporciona a la alta dirección datos en tiempo real para la toma de decisiones estratégicas sobre productos, marketing y expansión, una ventaja competitiva que los informes de mercado tradicionales no pueden igualar.</p></div>
+                    <div class="topic-content" id="roi-2"><h4>Inteligencia de Negocio</h4><p>El verdadero ROI va más allá de la eficiencia. Es la capacidad de analizar el 100% de las interacciones para obtener inteligencia de negocio en tiempo real. Esto permite a la dirección tomar decisiones estratégicas sobre logística, inventario y servicio, creando una ventaja competitiva sostenible que los informes de mercado tradicionales no pueden igualar.</p></div>
                 </div>
             </div>
         </section>
@@ -257,24 +255,24 @@
             <h2>Modelo de Adopción: Caminar, Correr, Volar</h2>
             <div class="interactive-panel">
                 <div class="topic-nav">
-                    <a class="topic-link active" data-target="adop-1"><svg class="topic-icon" style="color:var(--roshfrans-green)" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg><span>Fase 1: Caminar</span></a>
-                    <a class="topic-link" data-target="adop-2"><svg class="topic-icon" style="color:var(--genesys-dark-blue)" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg><span>Fase 2: Correr</span></a>
-                    <a class="topic-link" data-target="adop-3"><svg class="topic-icon" style="color:var(--genesys-orange)" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg><span>Fase 3: Volar</span></a>
+                    <a class="topic-link active" data-target="adop-1"><svg class="topic-icon" style="color:var(--roshfrans-green)" xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg><span>Fase 1: Caminar</span></a>
+                    <a class="topic-link" data-target="adop-2"><svg class="topic-icon" style="color:var(--genesys-dark-blue)" xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg><span>Fase 2: Correr</span></a>
+                    <a class="topic-link" data-target="adop-3"><svg class="topic-icon" style="color:var(--genesys-orange)" xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg><span>Fase 3: Volar</span></a>
                 </div>
                 <div class="topic-content-container">
                     <div class="topic-content active" id="adop-1">
                         <h4>Meses 1-3: Fundación y Victorias Rápidas</h4>
                         <p>
                             <ul>
-                                <li><strong>Canal Oficial: WhatsApp.</strong> Integración y despliegue como canal primario para centralizar la comunicación.</li>
-                                <li>Voz como canal opcional/secundario.</li>
-                                <li>Activar la Inteligencia Conversacional para empezar a recopilar datos.</li>
-                                <li><b>Objetivo:</b> Centralizar la comunicación, obtener visibilidad inicial y establecer una línea base de KPIs.</li>
+                                <li><strong>Canales Unificados:</strong> Integrar voz, email y lanzar WhatsApp/Web Messaging en una sola plataforma.</li>
+                                <li><strong>Bots de Autoservicio:</strong> Desplegar bots para consultas frecuentes (stock, horarios, estado de pedido).</li>
+                                <li><strong>Visibilidad Inicial:</strong> Activar analítica para obtener KPIs básicos y entender los motivos de contacto.</li>
+                                <li><b>Objetivo:</b> Centralizar la comunicación, reducir llamadas repetitivas y establecer una línea base de datos.</li>
                             </ul>
                         </p>
                     </div>
-                    <div class="topic-content" id="adop-2"><h4>Meses 4-9: Empoderamiento y Enfoque B2B</h4><p><ul><li>Implementar WEM para gestión de calidad y programación inteligente.</li><li>Construir AI Guides para los problemas técnicos más comunes.</li><li>Desplegar un Agente Virtual para que los distribuidores B2B verifiquen stock y precios.</li><li><b>Objetivo:</b> Mejorar la eficiencia del equipo humano y dar autoservicio a los socios.</li></ul></p></div>
-                    <div class="topic-content" id="adop-3"><h4>Meses 10-18: IA Agéntica y Orquestación</h4><p><ul><li>Evolucionar el Agente Virtual con capacidades de IA Agéntica para soporte técnico complejo.</li><li>Implementar Enrutamiento Predictivo para conectar clientes con el mejor agente.</li><li>Activar Engagement Predictivo para contactar proactivamente a leads B2B.</li><li><b>Objetivo:</b> Automatizar soporte técnico y transformar la plataforma en un generador de ingresos.</li></ul></p></div>
+                    <div class="topic-content" id="adop-2"><h4>Meses 4-9: Orquestación Proactiva</h4><p><ul><li><strong>Orquestar la Entrega:</strong> Integrar con logística para enviar notificaciones proactivas de ETA en tiempo real.</li><li><strong>Empoderar Agentes:</strong> Implementar Agent Copilot con resúmenes de IA y guías de conocimiento.</li><li><strong>WEM:</strong> Introducir Workforce Engagement Management para optimizar la gestión del equipo.</li><li><b>Objetivo:</b> Cumplir la promesa de "entrega de farmacia", mejorar la eficiencia del agente y aumentar el CSAT.</li></ul></p></div>
+                    <div class="topic-content" id="adop-3"><h4>Meses 10+: Liderazgo con IA Agentic</h4><p><ul><li><strong>IA Agentic (Piloto):</strong> Usar IA para detectar proactivamente retrasos y proponer soluciones (ej. re-ruteo desde otra sucursal).</li><li><strong>Enrutamiento Predictivo:</strong> Conectar clientes con el agente mejor capacitado para resolver su necesidad específica.</li><li><strong>Engagement Predictivo:</strong> Identificar oportunidades de venta o servicio basadas en el comportamiento del cliente.</li><li><b>Objetivo:</b> Pasar de un servicio reactivo a uno preventivo, optimizar la operación y consolidar el liderazgo del mercado.</li></ul></p></div>
                 </div>
             </div>
         </section>
@@ -282,7 +280,7 @@
 
     <footer class="bg-gray-800 text-white mt-12">
         <div class="container mx-auto px-6 py-6 text-center text-sm">
-            <p>&copy; 2024 Análisis Estratégico. Creado para Roshfrans en colaboración con Genesys.</p>
+            <p>&copy; 2024 Análisis Estratégico. Creado para Autopartes Salav en colaboración con Genesys.</p>
             <p class="text-gray-400 mt-2 text-xs">Disclaimer: Este análisis se ha elaborado utilizando información disponible públicamente en los sitios web oficiales de Roshfrans y Genesys, así como datos de mercado de fuentes de terceros. La intención es puramente ilustrativa para demostrar el potencial de la alianza estratégica.</p>
         </div>
     </footer>
@@ -293,7 +291,7 @@
             const contentSections = document.querySelectorAll('.content-section');
 
             function updateActiveState(hash) {
-                if (!hash || !document.querySelector(hash)) {
+                if (!hash ||!document.querySelector(hash)) {
                     hash = '#introduccion';
                 }
                 navLinks.forEach(link => link.classList.toggle('active', link.getAttribute('href') === hash));
@@ -304,7 +302,7 @@
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
                     const targetId = this.getAttribute('href');
-                    if(window.location.hash !== targetId) {
+                    if(window.location.hash!== targetId) {
                         history.pushState(null, null, targetId);
                     }
                     updateActiveState(targetId);
@@ -335,10 +333,8 @@
                 new Chart(marketCtx, {
                     type: 'bar',
                     data: {
-                        labels: ['2024', '2033 (Proyección)'],
-                        datasets: [{
-                            label: 'Valor del Mercado (Millones USD)',
-                            data: [2125, 3078],
+                        labels: ['2024 (Est.)', '2025 (Proy.)'],
+                        datasets:,
                             backgroundColor: ['rgba(0, 150, 70, 0.6)', 'rgba(255, 198, 41, 0.6)'],
                             borderColor: ['rgb(0, 150, 70)', 'rgb(255, 198, 41)'],
                             borderWidth: 1
@@ -346,8 +342,8 @@
                     },
                     options: {
                         responsive: true,
-                        plugins: { title: { display: true, text: 'Crecimiento del Mercado de Lubricantes en México' }, legend: { display: false } },
-                        scales: { y: { beginAtZero: true, ticks: { callback: value => `$${value}M` } } }
+                        plugins: { title: { display: true, text: 'Crecimiento del Mercado de Repuestos (Aftermarket) en México' }, legend: { display: false } },
+                        scales: { y: { beginAtZero: false, ticks: { callback: value => `$${value/1000}B` } } }
                     }
                 });
             }
@@ -357,19 +353,15 @@
                 new Chart(roiCtx, {
                     type: 'bar',
                     data: {
-                        labels: ['Reducción AHT', 'Aumento FCR', 'Aumento Conversión Leads'],
+                        labels:,
                         datasets: [{
                             label: 'Mejora Proyectada (%)',
-                            data: [20, 10, 7.5], // Illustrative percentages
-                            backgroundColor: [
-                                'rgba(0, 150, 70, 0.6)', // Green for cost saving
-                                'rgba(34, 67, 162, 0.6)', // Blue for quality
-                                'rgba(254, 69, 26, 0.6)'  // Orange for revenue
-                            ],
+                            data: [1, 2, 3], // Illustrative percentages
+                            backgroundColor:,
                             borderColor: [
                                 'rgb(0, 150, 70)',
-                                'rgb(34, 67, 162)',
-                                'rgb(254, 69, 26)'
+                                'rgb(254, 69, 26)',
+                                'rgb(21, 37, 80)'
                             ],
                             borderWidth: 1
                         }]
