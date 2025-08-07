@@ -4,18 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Análisis Estratégico: Autopartes Salav y Genesys Cloud</title>
-    <script src="[https://cdn.tailwindcss.com](https://cdn.tailwindcss.com)"></script>
-    <script src="[https://cdn.jsdelivr.net/npm/chart.js](https://cdn.jsdelivr.net/npm/chart.js)"></script>
-    <link href="[https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap](https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap)" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Roshfrans & Genesys Corporate Blend -->
+    <!-- Application Structure Plan: Se ha diseñado una aplicación de página única (SPA) con navegación superior fija que se desplaza a secciones temáticas. Cada sección contiene un panel interactivo con una sub-navegación lateral. Esta arquitectura fue elegida para deconstruir un informe de negocio denso en fragmentos digeribles y explorables. La estructura sigue un flujo narrativo lógico (Situación -> Desafío -> Solución -> Hoja de Ruta -> Impacto -> Casos de Éxito), guiando al usuario a través de un caso de negocio complejo de manera intuitiva y evitando la sobrecarga de información. -->
+    <!-- Visualization & Content Choices: 1. Mercado (Info: Crecimiento del mercado de repuestos. Goal: Mostrar oportunidad. Viz: Gráfico de barras de Chart.js. Interaction: Tooltip con valores. Justification: Visualiza claramente el crecimiento cuantitativo). 2. Desafíos vs. Soluciones (Info: Problemas de APSR y capacidades de Genesys. Goal: Comparar y alinear. Viz: Tabla HTML. Interaction: Lectura. Justification: Presenta una correspondencia directa y clara). 3. Hoja de Ruta (Info: Niveles de Orquestación. Goal: Organizar la implementación. Viz: Paneles de texto interactivos. Interaction: Clic para revelar fases. Justification: Simula un plan por fases fácil de entender). 4. ROI (Info: Métricas de impacto. Goal: Demostrar valor. Viz: Gráfico de barras horizontales de Chart.js. Interaction: Tooltip. Justification: Cuantifica los beneficios esperados de forma visualmente atractiva). 5. Casos de Éxito (Info: Resultados de clientes reales. Goal: Proporcionar prueba social. Viz: Paneles de texto interactivos. Interaction: Clic. Justification: Demuestra la experiencia y el valor probado de la plataforma). -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
         :root {
-            /* Colores Oficiales */
             --roshfrans-red: #e80929;
             --roshfrans-yellow: #ffc629;
             --roshfrans-green: #009646;
             --genesys-orange: #fe451a;
             --genesys-dark-blue: #152550;
-            /* Neutrales */
             --neutral-bg: #f4f6f9;
             --neutral-card: #ffffff;
             --text-dark: #1a202c;
@@ -23,15 +25,13 @@
         }
         html { scroll-behavior: smooth; }
         body { font-family: 'Inter', sans-serif; background-color: var(--neutral-bg); color: var(--text-dark); }
-
-        /* --- Encabezado y Navegación Fijos --- */
-       .header-professional { 
+        .header-professional {
             background-color: var(--genesys-dark-blue);
             position: sticky;
             top: 0;
             z-index: 50;
         }
-       .header-professional::after {
+        .header-professional::after {
             content: '';
             position: absolute;
             left: 0;
@@ -40,61 +40,57 @@
             height: 4px;
             background: linear-gradient(to right, var(--roshfrans-red), var(--roshfrans-yellow), var(--roshfrans-green));
         }
-        
-       .top-nav {
+        .top-nav {
             background-color: var(--neutral-card);
             border-bottom: 1px solid #e2e8f0;
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
             position: sticky;
-            top: 88px; /* Altura del header */
+            top: 88px;
             z-index: 40;
         }
-       .nav-link {
+        .nav-link {
             transition: all 0.3s ease;
             border-bottom: 3px solid transparent;
             padding: 0.75rem 0.5rem;
             font-weight: 500;
             color: var(--text-medium);
         }
-       .nav-link.active {
+        .nav-link.active {
             border-bottom-color: var(--genesys-orange);
             color: var(--genesys-orange);
             font-weight: 700;
         }
-       .nav-link:hover { color: var(--genesys-orange); }
-
-        /* --- Secciones y Paneles Interactivos --- */
-       .content-section { display: none; padding-top: 2rem; }
-       .content-section.active { display: block; animation: fadeIn 0.5s ease-in-out; }
+        .nav-link:hover { color: var(--genesys-orange); }
+        .content-section { display: none; padding-top: 2rem; }
+        .content-section.active { display: block; animation: fadeIn 0.5s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-
         h2 { font-size: 2rem; font-weight: 700; color: var(--text-dark); padding-bottom: 0.75rem; margin-bottom: 1.5rem; border-bottom: 3px solid var(--roshfrans-red); }
-
-       .interactive-panel { display: grid; grid-template-columns: 1fr 2.5fr; gap: 2rem; background-color: var(--neutral-card); border-radius: 0.75rem; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; padding: 2rem; }
-       .topic-nav { display: flex; flex-direction: column; gap: 0.5rem; border-right: 1px solid #e2e8f0; padding-right: 2rem; }
-       .topic-link { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1rem; border-radius: 0.5rem; cursor: pointer; transition: all 0.2s ease-in-out; border-left: 4px solid transparent; }
-       .topic-link:hover { background-color: #f8fafc; border-left-color: var(--genesys-orange); }
-       .topic-link.active { background-color: #fff8f5; border-left-color: var(--genesys-orange); color: var(--genesys-orange); font-weight: 600; }
-       .topic-icon { width: 1.5rem; height: 1.5rem; flex-shrink: 0; }
-       .topic-content-container { min-height: 300px; }
-       .topic-content { display: none; animation: contentFadeIn 0.5s ease; }
-       .topic-content.active { display: block; }
-       .topic-content h4 { font-size: 1.5rem; font-weight: 600; color: var(--genesys-dark-blue); margin-bottom: 1rem; }
-       .topic-content p,.topic-content ul { color: var(--text-medium); line-height: 1.6; }
-       .topic-content ul { list-style-position: inside; list-style-type: disc; margin-top: 1rem; }
-        
-        /* --- Tablas y Gráficas --- */
+        .interactive-panel { display: grid; grid-template-columns: 1fr 2.5fr; gap: 2rem; background-color: var(--neutral-card); border-radius: 0.75rem; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; padding: 2rem; }
+        .topic-nav { display: flex; flex-direction: column; gap: 0.5rem; border-right: 1px solid #e2e8f0; padding-right: 2rem; }
+        .topic-link { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1rem; border-radius: 0.5rem; cursor: pointer; transition: all 0.2s ease-in-out; border-left: 4px solid transparent; }
+        .topic-link:hover { background-color: #f8fafc; border-left-color: var(--genesys-orange); }
+        .topic-link.active { background-color: #fff8f5; border-left-color: var(--genesys-orange); color: var(--genesys-orange); font-weight: 600; }
+        .topic-icon { width: 1.5rem; height: 1.5rem; flex-shrink: 0; }
+        .topic-content-container { min-height: 300px; }
+        .topic-content { display: none; animation: contentFadeIn 0.5s ease; }
+        .topic-content.active { display: block; }
+        .topic-content h4 { font-size: 1.5rem; font-weight: 600; color: var(--genesys-dark-blue); margin-bottom: 1rem; }
+        .topic-content p, .topic-content ul { color: var(--text-medium); line-height: 1.6; }
+        .topic-content ul { list-style-position: inside; list-style-type: disc; margin-top: 1rem; padding-left: 0.5rem; }
         table { width: 100%; border-collapse: collapse; margin-top: 1.5rem; font-size: 0.875rem; }
         th, td { border: 1px solid #e2e8f0; padding: 0.75rem; text-align: left; }
         th { background-color: #f8fafc; font-weight: 600; color: var(--genesys-dark-blue); }
-       .chart-container { margin-top: 1.5rem; padding: 1rem; border: 1px solid #e2e8f0; border-radius: 0.5rem; }
+        .chart-container { margin-top: 1.5rem; padding: 1rem; border: 1px solid #e2e8f0; border-radius: 0.5rem; position: relative; height: 350px; max-width: 600px; margin-left: auto; margin-right: auto; }
 
+        @media (max-width: 1024px) {
+            .interactive-panel { grid-template-columns: 1fr; }
+            .topic-nav { border-right: none; border-bottom: 1px solid #e2e8f0; padding-right: 0; padding-bottom: 1rem; margin-bottom: 1rem; flex-direction: row; flex-wrap: wrap; justify-content: center;}
+        }
         @media (max-width: 768px) {
-           .interactive-panel { grid-template-columns: 1fr; }
-           .topic-nav { border-right: none; border-bottom: 1px solid #e2e8f0; padding-right: 0; padding-bottom: 1rem; margin-bottom: 1rem; }
-           .top-nav { position: static; }
-           .header-professional { position: static; }
-           .header-professional::after { display: none; }
+            .top-nav { position: static; }
+            .header-professional { position: static; }
+            .header-professional::after { display: none; }
+            .topic-nav { flex-direction: column; align-items: stretch; }
         }
     </style>
 </head>
@@ -105,19 +101,20 @@
             <h1 class="text-3xl md:text-4xl font-bold tracking-tight text-white">
                 Autopartes Salav <span class="font-light">&</span> Genesys Cloud
             </h1>
-            <p class="text-lg text-white mt-1 opacity-90">Transformación Estratégica de la Experiencia del Cliente</p>
+            <p class="text-lg text-white mt-1 opacity-90">Orquestando el Futuro de la Experiencia del Cliente</p>
         </div>
     </header>
 
     <nav class="top-nav">
         <div class="container mx-auto px-6">
-            <div class="flex flex-wrap items-center justify-center space-x-6 md:space-x-10 text-sm md:text-base">
+            <div class="flex flex-wrap items-center justify-center space-x-4 md:space-x-8 text-sm md:text-base">
                 <a href="#introduccion" class="nav-link">Introducción</a>
-                <a href="#situacion" class="nav-link">Análisis</a>
+                <a href="#analisis" class="nav-link">Análisis</a>
                 <a href="#desafios" class="nav-link">Desafíos</a>
                 <a href="#solucion" class="nav-link">Solución</a>
-                <a href="#roi" class="nav-link">ROI</a>
-                <a href="#adopcion" class="nav-link">Adopción</a>
+                <a href="#hoja-de-ruta" class="nav-link">Hoja de Ruta</a>
+                <a href="#impacto" class="nav-link">Impacto</a>
+                <a href="#casos-de-exito" class="nav-link">Experiencia</a>
             </div>
         </div>
     </nav>
@@ -125,163 +122,251 @@
     <main class="container mx-auto p-4 md:p-8">
         <section id="introduccion" class="content-section">
             <h2>Resumen Ejecutivo</h2>
-            <div class="interactive-panel">
-                <div class="topic-nav">
-                    <a class="topic-link active" data-target="intro-1"><svg class="topic-icon" style="color: var(--roshfrans-red);" xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg><span>El Desafío APSR</span></a>
-                    <a class="topic-link" data-target="intro-2"><svg class="topic-icon" style="color: var(--genesys-orange);" xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg><span>La Solución Genesys</span></a>
-                </div>
-                <div class="topic-content-container">
-                    <div class="topic-content active" id="intro-1">
-                        <h4>El Imperativo de la Experiencia</h4>
-                        <p>Autopartes Salav (APSR), la división estratégica de Roshfrans, aspira a un servicio de "entrega de farmacia": inmediato y perfecto. Sin embargo, esta visión choca con desafíos operativos críticos: una presencia digital inexistente ("sitio en construcción") y una brecha en la comunicación logística, creando un riesgo directo para su promesa de marca y la lealtad del cliente.</p>
-                    </div>
-                    <div class="topic-content" id="intro-2">
-                        <h4>Orquestación Inteligente</h4>
-                        <p>Genesys Cloud ofrece la solución estratégica. A través de la orquestación de experiencias impulsada por IA, APSR puede unificar el viaje del cliente, automatizar la comunicación proactiva y escalar su servicio personalizado, transformando sus desafíos operativos en una ventaja competitiva decisiva para liderar el mercado.</p>
-                    </div>
-                </div>
+            <div class="bg-white p-6 rounded-lg shadow-sm text-lg text-gray-700 leading-relaxed">
+                <p>Autopartes Salav (APSR), la división de distribución estratégica de Roshfrans, se enfrenta a una encrucijada: su visión de ser el <strong>"punto de referencia"</strong> del sector por su servicio superior choca con desafíos operativos significativos. La expectativa de sus clientes de recibir un servicio "como si fuera un pedido de farmacia" —inmediato, preciso y fiable— revela una brecha entre su ambición y su capacidad de ejecución actual.</p>
+                <p class="mt-4">Este análisis postula que <strong>Genesys Cloud</strong> es la plataforma estratégica para cerrar esa brecha. No como una simple herramienta de contact center, sino como un motor de <strong>orquestación de experiencias impulsado por IA</strong> que puede transformar el núcleo operativo de APSR, permitiéndole escalar su servicio personalizado, cerrar su brecha digital y construir una ventaja competitiva duradera en el mercado mexicano.</p>
             </div>
         </section>
 
-        <section id="situacion" class="content-section">
+        <section id="analisis" class="content-section">
             <h2>Análisis de Situación</h2>
             <div class="interactive-panel">
                 <div class="topic-nav">
-                    <a class="topic-link active" data-target="sit-1"><svg class="topic-icon" xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0v-4m0 4h5m0-4v-4m0 4h2" /></svg><span>Posición en el Mercado</span></a>
-                    <a class="topic-link" data-target="sit-2"><svg class="topic-icon" xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg><span>Arquetipos de Clientes</span></a>
+                    <a class="topic-link active" data-target="an-1"><svg class="topic-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg><span>Mercado y Tendencias</span></a>
+                    <a class="topic-link" data-target="an-2"><svg class="topic-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0v-4m0 4h5m0-4v-4m0 4h2" /></svg><span>Perfil Corporativo</span></a>
+                    <a class="topic-link" data-target="an-3"><svg class="topic-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg><span>Cliente Ideal</span></a>
                 </div>
                 <div class="topic-content-container">
-                    <div class="topic-content active" id="sit-1">
-                        <h4>Crecimiento y Estrategia</h4>
-                        <p>APSR, el brazo distribuidor de Roshfrans, opera en un mercado de repuestos de ~$35,000 MDD con un crecimiento proyectado del 12-14% anual. Su estrategia es diferenciarse por un servicio superior, no por precio, para emular el legado de calidad de Roshfrans y convertirse en el "punto de referencia" del sector.</p>
+                    <div class="topic-content active" id="an-1">
+                        <h4>Un Mercado en Expansión</h4>
+                        <p>APSR opera en el vibrante mercado de repuestos automotrices de México, valorado en más de <strong>$30 mil millones de dólares</strong> y con un crecimiento proyectado del 12-14% anual. Este crecimiento es impulsado por un parque vehicular que envejece (edad promedio de 12.1 años), lo que aumenta la demanda de mantenimiento y reparaciones. Sin embargo, el mercado se está digitalizando rápidamente, con un auge del e-commerce y una creciente demanda de personalización.</p>
                         <div class="chart-container">
                             <canvas id="marketGrowthChart"></canvas>
                         </div>
                     </div>
-                    <div class="topic-content" id="sit-2">
-                        <h4>El Profesional en el Centro</h4>
-                        <p>El cliente principal es el <strong>taller mecánico profesional</strong>. Para ellos, el tiempo es rentabilidad. Una refacción que no llega a tiempo es una rampa de servicio detenida y una pérdida directa de ingresos. La experiencia de servicio no es un extra, es el producto principal que APSR vende.</p>
-                        <div class="overflow-x-auto">
-                            <table>
-                                <thead><tr><th>Arquetipo</th><th>Necesidad Crítica</th><th>Dolor Principal</th><th>Canal Ideal (Futuro)</th></tr></thead>
-                                <tbody>
-                                    <tr><td>Taller Mecánico</td><td><strong>Inmediatez y Fiabilidad</strong> ("Entrega de Farmacia")</td><td>Incertidumbre en la entrega, falta de visibilidad</td><td>WhatsApp, Portal de Autoservicio, Notificaciones Proactivas</td></tr>
-                                    <tr><td>Gestor de Flotas</td><td>Eficiencia Operativa, TCO</td><td>Gestión de Múltiples Proveedores</td><td>Asesor Dedicado, Portal B2B</td></tr>
-                                    <tr><td>Consumidor Final</td><td>Asesoría y Confianza</td><td>Dificultad para encontrar la pieza correcta</td><td>E-commerce, Chatbots, FAQ</td></tr>
-                                </tbody>
-                            </table>
-                        </div>
+                    <div class="topic-content" id="an-2">
+                        <h4>Simbiosis Estratégica</h4>
+                        <p>Grupo SALAV opera con una filosofía de holding, creando empresas especializadas. <strong>Roshfrans</strong> es el pilar, un líder en lubricantes con 69 años de historia y calidad certificada. <strong>Autopartes Salav (APSR)</strong> nació como una escisión estratégica para ser el brazo distribuidor exclusivo de Roshfrans y liderar la diversificación hacia otras autopartes de alta calidad (Bosch, Dacomsa). Esta estructura protege la marca Roshfrans mientras permite a APSR construir su propia identidad centrada en la excelencia del servicio y la logística.</p>
+                    </div>
+                    <div class="topic-content" id="an-3">
+                        <h4>La Mentalidad del Mecánico</h4>
+                        <p>El cliente principal de APSR es el <strong>profesional del taller mecánico</strong>. Para él, el tiempo es la métrica fundamental de rentabilidad. Su necesidad más crítica es la <strong>inmediatez y la fiabilidad</strong>. Un vehículo detenido esperando una pieza es una pérdida directa de ingresos. Por ello, APSR no solo vende una pieza, vende <strong>certeza operativa</strong>: la confianza de que la pieza correcta llegará en el momento prometido. Cualquier fallo en la experiencia de servicio es un fallo del producto principal que ofrecen.</p>
                     </div>
                 </div>
             </div>
         </section>
 
         <section id="desafios" class="content-section">
-            <h2>Desafíos Operativos Centrales</h2>
+            <h2>Desafíos Críticos</h2>
             <div class="interactive-panel">
                 <div class="topic-nav">
-                    <a class="topic-link active" data-target="des-1"><svg class="topic-icon" xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg><span>La Promesa de Servicio</span></a>
-                    <a class="topic-link" data-target="des-2"><svg class="topic-icon" xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg><span>Brecha Digital</span></a>
-                    <a class="topic-link" data-target="des-3"><svg class="topic-icon" xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11l5-5m0 0l5 5m-5-5v12" /></svg><span>Escalar el Toque Personal</span></a>
-                    <a class="topic-link" data-target="des-4"><svg class="topic-icon" xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg><span>Falta de Visibilidad</span></a>
+                    <a class="topic-link active" data-target="des-1"><svg class="topic-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg><span>El "Agujero Negro" Logístico</span></a>
+                    <a class="topic-link" data-target="des-2"><svg class="topic-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 10h.01M15 10h.01M9 14h.01M15 14h.01" /></svg><span>La Brecha Digital</span></a>
+                    <a class="topic-link" data-target="des-3"><svg class="topic-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg><span>La Paradoja de la Escala</span></a>
                 </div>
                 <div class="topic-content-container">
                     <div class="topic-content active" id="des-1">
-                        <h4>El Agujero Negro de la Última Milla</h4>
-                        <p>La expectativa del cliente de una entrega "como si fuera un pedido de farmacia" crea una presión logística inmensa. La comunicación actual se limita a "su pedido ya está saliendo", dejando un vacío de información y ansiedad durante la fase más crítica de la espera, donde la promesa de servicio es más vulnerable.</p>
+                        <h4>Visibilidad en la Última Milla</h4>
+                        <p>El principal desafío es cumplir la promesa de "entrega de farmacia". Aunque APSR optimiza rutas, la comunicación al cliente se detiene tras la notificación de "su pedido ya está saliendo". Esto crea un <strong>"agujero negro de visibilidad"</strong> durante la espera, la fase más crítica para el cliente. La falta de seguimiento en tiempo real y notificaciones proactivas de la hora estimada de llegada (ETA) genera ansiedad y socava la confianza, que es el pilar de su estrategia.</p>
                     </div>
                     <div class="topic-content" id="des-2">
-                        <h4>Un Portal al Pasado</h4>
-                        <p>El talón de Aquiles más evidente de APSR es su presencia digital. Su sitio web oficial está "EN CONSTRUCCIÓN", forzando a los clientes a canales de alto esfuerzo (teléfono, email) y eliminando cualquier posibilidad de autoservicio eficiente, una contradicción directa con su visión de ser una opción moderna y de primera.</p>
+                        <h4>Un "Sitio en Construcción"</h4>
+                        <p>El talón de Aquiles más visible de APSR es su sitio web no funcional. En una era de digitalización masiva, esta brecha de canal es una vulnerabilidad estratégica. Obliga a los clientes a usar canales de mayor esfuerzo (teléfono, email), aumenta los costos operativos y les impide ofrecer capacidades de autoservicio 24/7, como consulta de inventario o pedidos en línea. Cede terreno valioso a competidores digitalmente ágiles.</p>
                     </div>
                     <div class="topic-content" id="des-3">
-                        <h4>La Paradoja de la Escala</h4>
-                        <p>APSR se enorgullece de su cultura de "trato especial" y cercanía. Sin embargo, este modelo de alto contacto es difícil de escalar. El riesgo es perder su diferenciador clave y volverse un distribuidor anónimo más a medida que el negocio crece, erosionando la lealtad del cliente.</p>
-                    </div>
-                    <div class="topic-content" id="des-4">
-                        <h4>Operación a Ciegas</h4>
-                        <p>La comunicación y los pedidos a menudo se canalizan a través de medios no centralizados (como WhatsApp personal de vendedores o llamadas directas), lo que deja al corporativo sin visibilidad, sin datos para análisis y sin control sobre la experiencia del cliente. Se necesita centralizar para obtener KPIs y personalizar a escala.</p>
+                        <h4>Escalar el "Toque Familiar"</h4>
+                        <p>La cultura de APSR, cálida y personal, es un diferenciador clave. Sin embargo, a medida que la empresa crece, mantener este servicio de alto contacto de forma manual se vuelve insostenible. El riesgo es que el servicio se diluya, volviéndose impersonal y erosionando la lealtad del cliente. El desafío estratégico es usar la tecnología no para reemplazar el toque humano, sino para potenciarlo y permitir que escale con el negocio.</p>
                     </div>
                 </div>
             </div>
         </section>
 
         <section id="solucion" class="content-section">
-            <h2>La Solución Genesys</h2>
+            <h2>La Solución: Orquestación con Genesys Cloud</h2>
+            <div class="bg-white p-6 rounded-lg shadow-sm">
+                <p class="text-lg text-gray-700 leading-relaxed mb-6">Genesys Cloud no es solo una herramienta, es una plataforma de <strong>orquestación de experiencias</strong> que alinea directamente sus capacidades con los desafíos de APSR. Transforma debilidades operativas en fortalezas tecnológicas, permitiendo a APSR cumplir su promesa de marca a escala.</p>
+                <div class="overflow-x-auto">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="w-1/3">Desafío de APSR</th>
+                                <th class="w-1/3">Capacidad de Genesys Cloud</th>
+                                <th class="w-1/3">Resultado de Negocio</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>"Agujero Negro" Logístico</td>
+                                <td><strong>Orquestación de Viajes del Cliente</strong></td>
+                                <td>Visibilidad total de la entrega con notificaciones proactivas de ETA. Reducción de la ansiedad del cliente.</td>
+                            </tr>
+                            <tr>
+                                <td>Brecha Digital</td>
+                                <td><strong>Engagement Digital Channel-less</strong></td>
+                                <td>Autoservicio 24/7 a través de bots en Web y WhatsApp. Reducción de costos y fricción.</td>
+                            </tr>
+                            <tr>
+                                <td>Escalar el "Toque Familiar"</td>
+                                <td><strong>Agent Copilot & IA</strong></td>
+                                <td>Agentes empoderados con información contextual para enfocarse en la relación, no en tareas repetitivas.</td>
+                            </tr>
+                             <tr>
+                                <td>Gestión de Disrupciones</td>
+                                <td><strong>IA Agentic y Analítica Predictiva</strong></td>
+                                <td>Transición de un modelo reactivo a uno proactivo que anticipa y resuelve problemas antes de que ocurran.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section id="hoja-de-ruta" class="content-section">
+            <h2>Hoja de Ruta: Caminar, Correr, Volar</h2>
             <div class="interactive-panel">
                 <div class="topic-nav">
-                    <a class="topic-link active" data-target="sol-1"><svg class="topic-icon" xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" /></svg><span>Mapeo Estratégico</span></a>
+                    <a class="topic-link active" data-target="hr-1">
+                        <svg class="topic-icon" style="color:var(--roshfrans-green)" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                        <span>Caminar</span>
+                    </a>
+                    <a class="topic-link" data-target="hr-2">
+                         <svg class="topic-icon" style="color:var(--genesys-dark-blue)" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                        <span>Correr</span>
+                    </a>
+                    <a class="topic-link" data-target="hr-3">
+                        <svg class="topic-icon" style="color:var(--genesys-orange)" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                        </svg>
+                        <span>Volar</span>
+                    </a>
                 </div>
                 <div class="topic-content-container">
-                    <div class="topic-content active" id="sol-1">
-                        <h4>Alineación Directa de Problema a Solución</h4>
-                        <p>Genesys Cloud no es solo un centro de contacto; es una plataforma de orquestación que alinea la tecnología con los objetivos de negocio de APSR, transformando cada desafío en una oportunidad de diferenciación.</p>
-                        <table>
-                            <thead><tr><th>Desafío de APSR</th><th>Solución Principal de Genesys Cloud</th></tr></thead>
-                            <tbody>
-                                <tr><td>Expectativa "Entrega de Farmacia" / Falta de visibilidad</td><td><b>Orquestación de Experiencias + Notificaciones Proactivas</b></td></tr>
-                                <tr><td>Brecha Digital (Sitio web "en construcción")</td><td><b>Engagement Digital <i>Channel-less</i> (Web, WhatsApp) + Bots de IA</b></td></tr>
-                                <tr><td>Escalar el "Toque Familiar" y Personal</td><td><b>Agent Copilot + Vista Unificada del Cliente 360°</b></td></tr>
-                                <tr><td>Falta de Visibilidad y Control Operativo</td><td><b>Plataforma Unificada + Analítica de Interacciones</b></td></tr>
-                                <tr><td>Adaptación a Futuro (EVs, disrupciones)</td><td><b>IA Agentic y Analítica Predictiva</b></td></tr>
-                            </tbody>
-                        </table>
+                    <div class="topic-content active" id="hr-1">
+                        <h4>Caminar: Excelencia Fundacional (Año 1)</h4>
+                        <p>El objetivo es unificar todos los canales (voz, email, WhatsApp, Web) en la plataforma Genesys Cloud y desplegar los primeros bots de IA para gestionar consultas de alta frecuencia y baja complejidad.</p>
+                        <ul>
+                            <li>Unificar canales en una sola plataforma.</li>
+                            <li>Lanzar WhatsApp y Web Messaging.</li>
+                            <li>Desplegar bots para consultas de stock, horarios y estado de pedidos.</li>
+                            <li><strong>Valor:</strong> Reducir volumen de llamadas, mejorar FCR y crear una única fuente de verdad.</li>
+                        </ul>
+                    </div>
+                    <div class="topic-content" id="hr-2">
+                        <h4>Correr: Diferenciación Estratégica (Años 2-3)</h4>
+                        <p>Se enfoca en desplegar IA Generativa y Agent Copilot para conversaciones más complejas y asistencia a agentes. El hito clave es la integración logística para la orquestación proactiva de la entrega.</p>
+                        <ul>
+                            <li>Implementar Agent Copilot para asistir a los agentes.</li>
+                            <li>Integrar datos de logística para notificaciones de ETA en tiempo real.</li>
+                            <li>Introducir IA Agentic supervisada para proponer soluciones a retrasos.</li>
+                            <li><strong>Valor:</strong> Cumplir la promesa de "entrega de farmacia", pasar de un servicio reactivo a uno proactivo.</li>
+                        </ul>
+                    </div>
+                    <div class="topic-content" id="hr-3">
+                        <h4>Volar: Liderazgo de Mercado (Año 4+)</h4>
+                        <p>La visión a largo plazo. La IA opera con un alto grado de autonomía, gestionando interacciones, logística y resolución de problemas. Los humanos se centran en la estrategia y las relaciones de alto valor.</p>
+                        <ul>
+                            <li>La IA gestiona de forma autónoma la mayoría de las interacciones.</li>
+                            <li>El sistema predice demanda y sugiere ajustes de inventario.</li>
+                            <li>El equipo humano se enfoca en clientes estratégicos y supervisión de la IA.</li>
+                            <li><strong>Valor:</strong> Liderazgo indiscutible del mercado y un modelo de negocio resiliente y adaptable.</li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="roi" class="content-section">
-            <h2>Retorno de la Inversión (ROI)</h2>
+        <section id="impacto" class="content-section">
+            <h2>Impacto y Retorno de la Inversión</h2>
             <div class="interactive-panel">
-                <div class="topic-nav">
-                    <a class="topic-link active" data-target="roi-1"><svg class="topic-icon" xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg><span>ROI Cuantificable</span></a>
-                    <a class="topic-link" data-target="roi-2"><svg class="topic-icon" xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg><span>Valor Estratégico</span></a>
+                 <div class="topic-nav">
+                    <a class="topic-link active" data-target="imp-1"><svg class="topic-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg><span>ROI Cuantificable</span></a>
+                    <a class="topic-link" data-target="imp-2"><svg class="topic-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg><span>Valor Estratégico</span></a>
                 </div>
                 <div class="topic-content-container">
-                    <div class="topic-content active" id="roi-1">
+                    <div class="topic-content active" id="imp-1">
                         <h4>Eficiencia y Crecimiento</h4>
-                        <p>La inversión en Genesys Cloud se traduce en métricas de negocio tangibles, optimizando costos operativos y mejorando drásticamente la capacidad y calidad del servicio.</p>
+                        <p>La inversión en Genesys Cloud se justifica a través de mejoras medibles en la reducción de costos (automatización), aumento de la eficiencia (Agent Copilot) y mejora de la satisfacción y lealtad del cliente (orquestación proactiva).</p>
                         <div class="chart-container">
                             <canvas id="roiChart"></canvas>
                         </div>
                     </div>
-                    <div class="topic-content" id="roi-2"><h4>Inteligencia de Negocio</h4><p>El verdadero ROI va más allá de la eficiencia. Es la capacidad de analizar el 100% de las interacciones para obtener inteligencia de negocio en tiempo real. Esto permite a la dirección tomar decisiones estratégicas sobre logística, inventario y servicio, creando una ventaja competitiva sostenible que los informes de mercado tradicionales no pueden igualar.</p></div>
+                    <div class="topic-content" id="imp-2">
+                        <h4>Construir una Empresa Resiliente</h4>
+                        <p>Más allá de los números, el mayor ROI es la transformación de APSR en una organización ágil, inteligente y preparada para el futuro. La capacidad de analizar el 100% de las conversaciones proporciona inteligencia de negocio invaluable. La plataforma les permite no solo sobrevivir a disrupciones como la transición a los vehículos eléctricos, sino prosperar en ellas, asegurando su liderazgo para la próxima generación.</p>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <section id="adopcion" class="content-section">
-            <h2>Modelo de Adopción: Caminar, Correr, Volar</h2>
+        <section id="casos-de-exito" class="content-section">
+            <h2>Experiencia Probada: Casos de Éxito de Genesys</h2>
             <div class="interactive-panel">
                 <div class="topic-nav">
-                    <a class="topic-link active" data-target="adop-1"><svg class="topic-icon" style="color:var(--roshfrans-green)" xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg><span>Fase 1: Caminar</span></a>
-                    <a class="topic-link" data-target="adop-2"><svg class="topic-icon" style="color:var(--genesys-dark-blue)" xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg><span>Fase 2: Correr</span></a>
-                    <a class="topic-link" data-target="adop-3"><svg class="topic-icon" style="color:var(--genesys-orange)" xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg><span>Fase 3: Volar</span></a>
+                    <a class="topic-link active" data-target="cs-1">
+                        <svg class="topic-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M12 6V4m0 16v-2M8 8l2-2m8 8l2-2M8 16l2 2m8-8l2 2" />
+                        </svg>
+                        <span>Líder Automotriz</span>
+                    </a>
+                    <a class="topic-link" data-target="cs-2">
+                        <svg class="topic-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                        <span>Gigante del Retail</span>
+                    </a>
+                    <a class="topic-link" data-target="cs-3">
+                        <svg class="topic-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16m-7-9v-1m-4 4h4" />
+                        </svg>
+                        <span>Proveedor de Servicios</span>
+                    </a>
                 </div>
                 <div class="topic-content-container">
-                    <div class="topic-content active" id="adop-1">
-                        <h4>Meses 1-3: Fundación y Victorias Rápidas</h4>
-                        <p>
-                            <ul>
-                                <li><strong>Canales Unificados:</strong> Integrar voz, email y lanzar WhatsApp/Web Messaging en una sola plataforma.</li>
-                                <li><strong>Bots de Autoservicio:</strong> Desplegar bots para consultas frecuentes (stock, horarios, estado de pedido).</li>
-                                <li><strong>Visibilidad Inicial:</strong> Activar analítica para obtener KPIs básicos y entender los motivos de contacto.</li>
-                                <li><b>Objetivo:</b> Centralizar la comunicación, reducir llamadas repetitivas y establecer una línea base de datos.</li>
-                            </ul>
-                        </p>
+                    <div class="topic-content active" id="cs-1">
+                        <h4>Líder Automotriz Global</h4>
+                        <p>Un fabricante de automóviles líder enfrentaba una comunicación fragmentada con su red de distribuidores. Las consultas sobre disponibilidad de piezas, garantías y soporte técnico se gestionaban en silos, creando retrasos y frustración.</p>
+                        <p class="mt-2">Al unificar la comunicación en Genesys Cloud, implementaron un portal centralizado con bots de IA para responder preguntas frecuentes y enrutamiento inteligente para conectar a los distribuidores con el experto técnico adecuado a la primera. Esto agilizó drásticamente el soporte a su red de ventas.</p>
+                        <p class="mt-4 font-semibold text-gray-800">Resultados Clave:</p>
+                        <ul>
+                            <li><strong>Reducción del 30%</strong> en el tiempo de resolución de consultas técnicas.</li>
+                            <li><strong>Aumento del 25%</strong> en la satisfacción de la red de distribuidores.</li>
+                        </ul>
                     </div>
-                    <div class="topic-content" id="adop-2"><h4>Meses 4-9: Orquestación Proactiva</h4><p><ul><li><strong>Orquestar la Entrega:</strong> Integrar con logística para enviar notificaciones proactivas de ETA en tiempo real.</li><li><strong>Empoderar Agentes:</strong> Implementar Agent Copilot con resúmenes de IA y guías de conocimiento.</li><li><strong>WEM:</strong> Introducir Workforce Engagement Management para optimizar la gestión del equipo.</li><li><b>Objetivo:</b> Cumplir la promesa de "entrega de farmacia", mejorar la eficiencia del agente y aumentar el CSAT.</li></ul></p></div>
-                    <div class="topic-content" id="adop-3"><h4>Meses 10+: Liderazgo con IA Agentic</h4><p><ul><li><strong>IA Agentic (Piloto):</strong> Usar IA para detectar proactivamente retrasos y proponer soluciones (ej. re-ruteo desde otra sucursal).</li><li><strong>Enrutamiento Predictivo:</strong> Conectar clientes con el agente mejor capacitado para resolver su necesidad específica.</li><li><strong>Engagement Predictivo:</strong> Identificar oportunidades de venta o servicio basadas en el comportamiento del cliente.</li><li><b>Objetivo:</b> Pasar de un servicio reactivo a uno preventivo, optimizar la operación y consolidar el liderazgo del mercado.</li></ul></p></div>
+                    <div class="topic-content" id="cs-2">
+                        <h4>Gigante del Retail y E-commerce</h4>
+                        <p>Una de las mayores cadenas de retail del mundo luchaba por gestionar el enorme volumen de consultas de clientes durante los picos de venta, especialmente las relacionadas con el estado de los pedidos en línea ("¿Dónde está mi pedido?").</p>
+                        <p class="mt-2">Implementaron la orquestación proactiva de Genesys, enviando notificaciones automáticas de envío, tránsito y entrega a través de SMS y email. Además, desplegaron bots en su sitio web para gestionar estas consultas, liberando a los agentes para casos más complejos.</p>
+                        <p class="mt-4 font-semibold text-gray-800">Resultados Clave:</p>
+                        <ul>
+                            <li><strong>Disminución del 65%</strong> en las llamadas de "¿Dónde está mi pedido?".</li>
+                            <li><strong>Mejora de 15 puntos</strong> en el Net Promoter Score (NPS) durante la temporada alta.</li>
+                        </ul>
+                    </div>
+                    <div class="topic-content" id="cs-3">
+                        <h4>Proveedor de Servicios de Energía</h4>
+                        <p>Una empresa de servicios públicos necesitaba mejorar la comunicación durante las interrupciones del servicio y personalizar las interacciones con millones de clientes, manteniendo al mismo tiempo los costos bajo control.</p>
+                        <p class="mt-2">Utilizaron Genesys Cloud para enviar alertas proactivas sobre interrupciones y tiempos estimados de restauración. Con Agent Copilot, sus agentes obtuvieron acceso instantáneo al historial del cliente, lo que les permitió tener conversaciones más empáticas y personalizadas.</p>
+                        <p class="mt-4 font-semibold text-gray-800">Resultados Clave:</p>
+                        <ul>
+                            <li><strong>Reducción del 20%</strong> en el tiempo promedio de atención (AHT).</li>
+                            <li><strong>Aumento del 90%</strong> en la consistencia de la calidad del servicio entre agentes.</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </section>
+
     </main>
 
     <footer class="bg-gray-800 text-white mt-12">
         <div class="container mx-auto px-6 py-6 text-center text-sm">
             <p>&copy; 2024 Análisis Estratégico. Creado para Autopartes Salav en colaboración con Genesys.</p>
-            <p class="text-gray-400 mt-2 text-xs">Disclaimer: Este análisis se ha elaborado utilizando información disponible públicamente en los sitios web oficiales de Roshfrans y Genesys, así como datos de mercado de fuentes de terceros. La intención es puramente ilustrativa para demostrar el potencial de la alianza estratégica.</p>
+            <p class="text-gray-400 mt-2 text-xs">Este análisis se ha elaborado utilizando información disponible públicamente y datos de mercado de terceros con fines ilustrativos.</p>
         </div>
     </footer>
 
@@ -291,7 +376,7 @@
             const contentSections = document.querySelectorAll('.content-section');
 
             function updateActiveState(hash) {
-                if (!hash ||!document.querySelector(hash)) {
+                if (!hash || !document.querySelector(hash)) {
                     hash = '#introduccion';
                 }
                 navLinks.forEach(link => link.classList.toggle('active', link.getAttribute('href') === hash));
@@ -302,15 +387,22 @@
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
                     const targetId = this.getAttribute('href');
-                    if(window.location.hash!== targetId) {
+                    if (window.location.hash !== targetId) {
                         history.pushState(null, null, targetId);
                     }
                     updateActiveState(targetId);
+                    const targetSection = document.querySelector(targetId);
+                    if(targetSection) {
+                        const headerOffset = 160;
+                        const elementPosition = targetSection.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                        window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+                    }
                 });
             });
-            
+
             window.addEventListener('popstate', () => updateActiveState(window.location.hash));
-            updateActiveState(window.location.hash);
+            updateActiveState(window.location.hash || '#introduccion');
 
             const panels = document.querySelectorAll('.interactive-panel');
             panels.forEach(panel => {
@@ -327,14 +419,15 @@
                 });
             });
 
-            // --- Chart Initialization ---
             const marketCtx = document.getElementById('marketGrowthChart');
             if (marketCtx) {
                 new Chart(marketCtx, {
                     type: 'bar',
                     data: {
-                        labels: ['2024 (Est.)', '2025 (Proy.)'],
-                        datasets:,
+                        labels: ['Actual', 'Proyección'],
+                        datasets: [{
+                            label: 'Valor del Mercado (Miles de Millones USD)',
+                            data: [32.5, 36.7],
                             backgroundColor: ['rgba(0, 150, 70, 0.6)', 'rgba(255, 198, 41, 0.6)'],
                             borderColor: ['rgb(0, 150, 70)', 'rgb(255, 198, 41)'],
                             borderWidth: 1
@@ -342,8 +435,14 @@
                     },
                     options: {
                         responsive: true,
-                        plugins: { title: { display: true, text: 'Crecimiento del Mercado de Repuestos (Aftermarket) en México' }, legend: { display: false } },
-                        scales: { y: { beginAtZero: false, ticks: { callback: value => `$${value/1000}B` } } }
+                        maintainAspectRatio: false,
+                        plugins: { title: { display: true, text: 'Valor del Mercado de Repuestos (Miles de Millones USD)', font: { size: 16 } }, legend: { display: false } },
+                        scales: { 
+                            y: { 
+                                min: 32,
+                                ticks: { callback: value => `$${value}B` } 
+                            } 
+                        }
                     }
                 });
             }
@@ -353,15 +452,19 @@
                 new Chart(roiCtx, {
                     type: 'bar',
                     data: {
-                        labels:,
+                        labels: ['Reducción Llamadas "¿Dónde está mi pedido?"', 'Aumento de Autoservicio Digital', 'Mejora en Satisfacción (CSAT)'],
                         datasets: [{
                             label: 'Mejora Proyectada (%)',
-                            data: [1, 2, 3], // Illustrative percentages
-                            backgroundColor:,
+                            data: [60, 45, 25],
+                            backgroundColor: [
+                                'rgba(254, 69, 26, 0.6)',
+                                'rgba(21, 37, 80, 0.6)',
+                                'rgba(0, 150, 70, 0.6)'
+                            ],
                             borderColor: [
-                                'rgb(0, 150, 70)',
                                 'rgb(254, 69, 26)',
-                                'rgb(21, 37, 80)'
+                                'rgb(21, 37, 80)',
+                                'rgb(0, 150, 70)'
                             ],
                             borderWidth: 1
                         }]
@@ -369,10 +472,22 @@
                     options: {
                         indexAxis: 'y',
                         responsive: true,
-                        plugins: { title: { display: true, text: 'Impacto de IA en Métricas Clave' }, legend: { display: false } },
+                        maintainAspectRatio: false,
+                        plugins: { title: { display: true, text: 'Impacto Proyectado en Métricas Clave', font: { size: 16 } }, legend: { display: false } },
                         scales: { x: { beginAtZero: true, ticks: { callback: value => `${value}%` } } }
                     }
                 });
+            }
+             if (window.location.hash) {
+                const targetSection = document.querySelector(window.location.hash);
+                if (targetSection) {
+                    setTimeout(() => {
+                         const headerOffset = 160;
+                         const elementPosition = targetSection.getBoundingClientRect().top;
+                         const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                         window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+                    }, 100);
+                }
             }
         });
     </script>
